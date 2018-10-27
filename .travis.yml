@@ -1,24 +1,20 @@
 language: python
 sudo: false
 cache: pip
+python:
+  - 3.6
+  - 3.5
+  - 2.7
+env:
+  - DJANGO="2.0"
+  - DJANGO="1.11"
 matrix:
   fast_finish: true
+  exclude:
+    - env: DJANGO="2.0"
+      python: 2.7
   include:
-  - env: TOX_ENV=py27-dj111
-    python: 2.7
-  - env: TOX_ENV=py35-dj111
-    python: 3.5
-  - env: TOX_ENV=py36-dj111
-    python: 3.6
-  - env: TOX_ENV=py35-dj20
-    python: 3.5
-  - env: TOX_ENV=py36-dj20
-    python: 3.6
-  - env: TOX_ENV=flake8
-    python: 3.6
-  - env: TOX_ENV=readme
-    python: 3.6
-install:
-- pip install -U pip setuptools tox
-script:
-- tox -e "${TOX_ENV}"
+    - env: TOXENV=flake8,readme
+      python: 3.6
+install: pip install tox-travis
+script: tox
